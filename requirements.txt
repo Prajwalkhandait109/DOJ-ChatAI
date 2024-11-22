@@ -2,3 +2,4 @@ streamlit-chat
 langchain
 langchain_groq
 sentence_transformers
+langchain_community
