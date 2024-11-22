@@ -3,3 +3,4 @@ langchain
 langchain_groq
 sentence_transformers
 langchain_community
+langchain_huggingface
