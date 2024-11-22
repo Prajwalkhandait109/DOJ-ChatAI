@@ -79,30 +79,29 @@ def conversation_chat(query):
     # Check if the question is law-related
     if is_law_related(query):
         law_info = search_law_database(query)
-   # else:
-    #    law_info = ""
-    
+    else:
+        law_info = ""
+
     # Create the prompt
-        prompt = ChatPromptTemplate.from_messages(
-           [
-               SystemMessage(content=system_prompt),
-               MessagesPlaceholder(variable_name="chat_history"),
-               HumanMessagePromptTemplate.from_template("{human_input}"),
-               HumanMessagePromptTemplate.from_template(f"{law_info}"), 
-            ]
-        )   
+    prompt = ChatPromptTemplate.from_messages(
+        [
+            SystemMessage(content=system_prompt),
+            MessagesPlaceholder(variable_name="chat_history"),
+            HumanMessagePromptTemplate.from_template("{human_input}"),
+            HumanMessagePromptTemplate.from_template(f"{law_info}"), 
+        ]
+    )   
     
     # Create conversation chain
-        conversation = LLMChain(
-            llm=groq_chat,
-            prompt=prompt,
-            verbose=False,
-            memory=memory
-        )
-        response = conversation.predict(human_input=query)
-    else:
+    conversation = LLMChain(
+        llm=groq_chat,
+        prompt=prompt,
+        verbose=False,
+        memory=memory
+    )
+    
     # Get response
-        response = "I'm here to assist you with Indian law-related questions. Please ask something related to legal matters."
+    response = conversation.predict(human_input=query)
     
     # Append to chat history
     st.session_state.chat_history.append((query, response))
@@ -114,7 +113,6 @@ def display_chat_history():
     container = st.container()
 
     with container:
-        
         with st.form(key='chat_form', clear_on_submit=True):
             user_input = st.text_input("Ask about Indian law:", key='input')
             submit_button = st.form_submit_button(label='Send')
